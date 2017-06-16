@@ -5,9 +5,18 @@ const url = require('url')
 let win
 
 let createWindow = () => {
-    win = new BrowserWindow({width: 800, height: 600, backgroundColor: '#eee'})
+    win = new BrowserWindow({
+      width: 300, 
+      height: 50, 
+      backgroundColor: '#eee', 
+      frame: false, 
+      resizable: false,
+      defaultFontSize: 12
+      })
     
     win.loadURL('http://localhost:8080')
+
+    win.setAlwaysOnTop(true)
 
     win.on('closed', () => {
         win = null

@@ -18,11 +18,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style style="less" scoped>
 .playerbar {
-  position: absolute;
   display: flex;
-  bottom: 0;
-  height: 40px;
-  width: 100%;
-  border-top: 1px solid #eee;
+  flex: 5;
+  -webkit-app-region: drag;
+  justify-content: center;
+  align-items: center;
 }
 </style>

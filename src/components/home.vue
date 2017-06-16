@@ -1,7 +1,10 @@
 <template>
   <div class="hello">
-  <v-sliderbar></v-sliderbar>
-  <v-playbar></v-playbar>
+    <div style="thumb">
+      thumb
+    </div>
+    <v-playbar></v-playbar>
+    <v-sliderbar></v-sliderbar>
   </div>
 </template>
 
@@ -17,6 +20,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style style="less" scoped>
+.hello {
+  display: flex;
+  height: 50px;
+  flex: 1;
+  .thumb {
+    height: 50px;
+    width: 50px;
+  }
+}
 </style>

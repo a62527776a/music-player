@@ -19,6 +19,8 @@ export default {
 <style style="less" scoped>
 .sliderbar {
   display: flex;
-  width: 20%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 }
 </style>

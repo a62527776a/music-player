@@ -6,11 +6,10 @@ import xhr from './xhr/vueResource'
 
 let baseService = {
 
-  post: (className, body) => {
+  find: (method, body) => {
     return xhr({
-      method: 'post',
-      url: `/`,
-      body: body
+      method: 'get',
+      url: `&baidu.ting.${method}`
     })
   }
 
