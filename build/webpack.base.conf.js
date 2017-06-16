@@ -11,6 +11,9 @@ module.exports = {
   entry: {
     app: './src/main.js'
   },
+  node: {
+    fs: "empty"
+  },
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
@@ -18,6 +21,7 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  target: 'atom',
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {

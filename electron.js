@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
 
@@ -17,11 +17,17 @@ let createWindow = () => {
     win.loadURL('http://localhost:8080')
 
     win.setAlwaysOnTop(true)
+    
+    // win.webContents.openDevTools()
 
     win.on('closed', () => {
         win = null
     })
 }
+
+ipcMain.on('search-song', (event, arg) => {
+  win.setSize(300, 200)
+})
 
 app.on('ready', createWindow)
 

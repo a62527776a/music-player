@@ -24,6 +24,7 @@ export default {
 .hello {
   display: flex;
   height: 50px;
+  padding: 10px 0;
   flex: 1;
   .thumb {
     height: 50px;
