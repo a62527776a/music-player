@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import MuseUI from 'muse-ui'
 import common from './components/common/'
-import baseService from './services/base.service'
+import baseService from './service/base.service'
 
 import 'muse-ui/dist/muse-ui.css'
 
