@@ -5,11 +5,9 @@ const url = require('url')
 let win
 
 let createWindow = () => {
-    win = new BrowserWindow({width: 800, height: 600})
+    win = new BrowserWindow({width: 800, height: 600, backgroundColor: '#eee'})
     
     win.loadURL('http://localhost:8080')
-
-    win.webContents.openDevTools()
 
     win.on('closed', () => {
         win = null

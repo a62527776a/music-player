@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import MuseUI from 'muse-ui'
 import common from './components/common/'
+import baseService from './services/base.service'
 
 import 'muse-ui/dist/muse-ui.css'
 
@@ -15,6 +16,8 @@ Object.keys(common).forEach((key) => {
   var name = key.replace(/(\w)/, (v) => v.toUpperCase())
   Vue.component(`v${name}`, common[key])
 })
+
+Vue.prototype.baseService = baseService
 
 /* eslint-disable no-new */
 new Vue({

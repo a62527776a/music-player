@@ -1,13 +1,12 @@
 <template>
-  <div class="hello">
-  <v-sliderbar></v-sliderbar>
-  <v-playbar></v-playbar>
+  <div class="sliderbar">
+    sliderbar
   </div>
 </template>
 
 <script>
 export default {
-  name: 'hello',
+  name: 'slider-bar',
   data () {
     return {
       msg: ''
@@ -17,6 +16,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+<style style="less" scoped>
+.sliderbar {
+  display: flex;
+  width: 20%;
+}
 </style>
