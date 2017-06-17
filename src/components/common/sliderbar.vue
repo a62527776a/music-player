@@ -1,12 +1,10 @@
 <template>
   <div class="sliderbar">
-    <mu-icon value="search" @click="search" color="red"/>
+    <mu-icon value="search" @click="search" color="#aaa"/>
   </div>
 </template>
 
 <script>
-import ipcRenderer from 'electron'
-
 export default {
   name: 'slider-bar',
   data () {
@@ -16,7 +14,7 @@ export default {
   },
   methods: {
     search () {
-      ipcRenderer.ipcRenderer.send('search-song', '哈哈')
+      this.$emit('search')
     }
   }
 }

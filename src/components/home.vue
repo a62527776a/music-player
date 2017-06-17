@@ -1,19 +1,39 @@
 <template>
-  <div class="hello">
-    <div style="thumb">
-      thumb
+  <div>
+    <div class="hello">
+      <div style="thumb">
+        thumb
+      </div>
+      <v-playbar></v-playbar>
+      <v-sliderbar
+        v-on:search="openSearchBar"></v-sliderbar>
     </div>
-    <v-playbar></v-playbar>
-    <v-sliderbar></v-sliderbar>
+    <div class="search-bar">
+      <mu-text-field hintText="搜索歌曲" v-model="searchKeyCode" @change="searchSong" fullWidth /><br/>
+    </div>
   </div>
 </template>
 
 <script>
+import ipcRenderer from 'electron'
+
 export default {
   name: 'hello',
   data () {
     return {
-      msg: ''
+      msg: '',
+      resultsong: Array,
+      searchKeyCode: ''
+    }
+  },
+  methods: {
+    openSearchBar () {
+      ipcRenderer.ipcRenderer.send('search-song', '哈哈')
+    },
+    searchSong () {
+      this.baseService.search(this.searchKeyCode, 1).then((result) => {
+        this.resultsong = result.result
+      })
     }
   }
 }
