@@ -7,9 +7,6 @@ Vue.use(VueResource)
 Vue.http.options.root = rootPath
 Vue.http.options.emulateJSON = true
 Vue.http.options.xhr = { withCredentials: true }
-Vue.http.headers.common['Referer'] = 'http://music.163.com/'
-Vue.http.headers.common['Cookie'] = 'appver=1.5.0.75771'
-Vue.http.headers.common['Access-Control-Allow-Origin'] = 'appver=1.5.0.75771'
 
 const xhr = ({ url, body, method = 'get' }) => {
   // 引入了 ES6 的 Promise 实现

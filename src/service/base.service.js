@@ -12,16 +12,9 @@ let baseService = {
       url: `&baidu.ting.${body}`
     })
   },
-  search: (keycode, offset) => {
+  search: (keycode, offset = 1) => {
     return xhr({
-      method: 'post',
-      url: 'search/pc',
-      body: {
-        type: 1,
-        limit: 10,
-        offset: offset,
-        s: keycode
-      }
+      url: `search?keywords=${keycode}`
     })
   }
 

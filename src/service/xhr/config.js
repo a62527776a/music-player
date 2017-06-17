@@ -1,4 +1,4 @@
-export const rootPath = 'http://music.163.com/api/'
+export const rootPath = 'http://localhost:3000/'
 
 export const errHandler = (e) => {
   throw e

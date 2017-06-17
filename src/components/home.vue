@@ -11,6 +11,7 @@
     <div class="search-bar">
       <mu-text-field hintText="搜索歌曲" v-model="searchKeyCode" @change="searchSong" fullWidth /><br/>
     </div>
+    {{resultsong}}
   </div>
 </template>
 
@@ -32,7 +33,8 @@ export default {
     },
     searchSong () {
       this.baseService.search(this.searchKeyCode, 1).then((result) => {
-        this.resultsong = result.result
+        console.log(result)
+        this.resultsong = result.result.songs
       })
     }
   }
