@@ -1,6 +1,6 @@
 <template>
   <div @mouseover="isHover = true" @mouseout="isHover = false" class="playerbar">
-    <audio></audio>
+    <audio :src="musicUrl" ref="audio"></audio>
     <div class="music-info" :class="{notHover : isHover}">
       123123
     </div>
@@ -8,7 +8,8 @@
       <div class="dragBlock" style="left: 0"></div>
       <div class="dragBlock" style="right: 0"></div>
       <mu-icon value="fast_rewind" @click="switchSong('rewind')" color="red"/>
-      <mu-icon value="play_circle_filled" @click="isPlay" color="red"/>
+      <mu-icon v-if="!isPlayer" value="play_circle_filled" @click="isPlay" color="red"/>
+      <mu-icon v-if="isPlayer" value="pause_circle_filled" @click="isPlay" color="red"/>
       <mu-icon value="fast_forward" @click="switchSong('forward')" color="red"/>
     </div>
   </div>
@@ -19,12 +20,20 @@ export default {
   name: 'playerbar',
   data () {
     return {
-      isHover: false
+      isHover: false,
+      isPlayer: false
+    }
+  },
+  props: {
+    musicUrl: {
+      type: String,
+      default: '123'
     }
   },
   methods: {
     isPlay () {
-      window.alert('isPlay')
+      this.isPlayer = !this.isPlayer
+      this.isPlayer ? this.$refs.audio.pause() : this.$refs.audio.play()
     },
     switchSong (val) {
       window.alert(val)

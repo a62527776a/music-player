@@ -26,8 +26,17 @@ let createWindow = () => {
 }
 
 ipcMain.on('search-song', (event, arg) => {
-  win.setSize(300, 200)
+  let height = arg ? 50 : 350
+  openAnimation(arg, height)
 })
+
+let openAnimation = (isOpen, height) => {
+  let timer = setInterval(() => {
+    isOpen ? height += 10 : height -= 10
+    win.setSize(300, height)
+    isOpen ? (height === 350 ? clearInterval(timer) : null) : (height === 50 ? clearInterval(timer) : null)
+  }, 16)
+}
 
 app.on('ready', createWindow)
 

@@ -6,15 +6,19 @@ import xhr from './xhr/vueResource'
 
 let baseService = {
 
-  find: (body) => {
+  find: () => {
     return xhr({
-      method: 'get',
-      url: `&baidu.ting.${body}`
+      url: `&baidu.ting`
     })
   },
   search: (keycode, offset = 1) => {
     return xhr({
       url: `search?keywords=${keycode}`
+    })
+  },
+  getMusic: (id) => {
+    return xhr({
+      url: `music/url?id=${id}`
     })
   }
 
