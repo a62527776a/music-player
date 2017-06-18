@@ -1,12 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
+const windowWidth = 800
 
 let win
 
 let createWindow = () => {
     win = new BrowserWindow({
-      width: 300, 
+      width: windowWidth, 
       height: 50, 
       backgroundColor: '#eee', 
       frame: false, 
@@ -25,17 +26,27 @@ let createWindow = () => {
     })
 }
 
+let opening = false // 是否在动画中?
+
 ipcMain.on('search-song', (event, arg) => {
+  if (opening) event.sender.send('opening', opening)
   let height = arg ? 50 : 350
   openAnimation(arg, height)
 })
 
 let openAnimation = (isOpen, height) => {
+  opening = true
   let timer = setInterval(() => {
-    isOpen ? height += 10 : height -= 10
-    win.setSize(300, height)
-    isOpen ? (height === 350 ? clearInterval(timer) : null) : (height === 50 ? clearInterval(timer) : null)
+    isOpen ? checkHeight(350, 10) : checkHeight(50, -10)
+    win.setSize(windowWidth, height)
   }, 16)
+  let checkHeight = (bound, step) => {
+    height += step
+    if (height === bound) {
+      clearInterval(timer)
+      opening = false
+    }
+  }
 }
 
 app.on('ready', createWindow)

@@ -49,6 +49,10 @@ export default {
     openSearchBar () {
       ipcRenderer.ipcRenderer.send('search-song', !this.isSearch)
       this.isSearch = !this.isSearch
+      ipcRenderer.ipcRenderer.on('opening', (event, arg) => {
+        this.isSearch = !this.isSearch
+      })
+      console.log(this.isSearch)
     },
     searchSong () {
       this.isLoading = true
