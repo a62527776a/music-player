@@ -44,7 +44,7 @@ export default {
       ctx.lineWidth = 5
       let draw = () => {
         if (radius === 10) {
-          radius--s
+          radius--
         } else if (radius === 3) {
           radius++
         }
