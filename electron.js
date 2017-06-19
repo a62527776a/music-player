@@ -1,9 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, webContents } = require('electron')
 const path = require('path')
 const url = require('url')
 const windowWidth = 800
 
 let win
+let downloadFile
 
 let createWindow = () => {
     win = new BrowserWindow({
@@ -20,6 +21,10 @@ let createWindow = () => {
     win.setAlwaysOnTop(true)
     
     win.webContents.openDevTools()
+
+    downLoadFile = (url) => {
+      win.webContents.downloadURL(url)
+    }
 
     win.on('closed', () => {
         win = null
@@ -48,6 +53,42 @@ let openAnimation = (isOpen, height) => {
     }
   }
 }
+
+ipcMain.on('download-song', (e, arg) => {
+  win.webContents.session.on('will-download', (event, item, webContents) => {
+    const totalBytes = item.getTotalBytes()
+    let body
+    let sendDownloaProcess = (type, receivedBytes) => {
+      body = {
+        type: type,
+        process: Math.floor((receivedBytes / totalBytes) * 100)
+      }
+      e.sender.send('download-song', body)
+    }
+    sendDownloaProcess('init', 0)
+    item.on('updated', (event, state) => {
+      if (state === 'interrupted') {
+        sendDownloaProcess('error', item.getReceivedBytes())
+      } else if (state === 'progressing') {
+        if (item.isPaused()) {
+          sendDownloaProcess('paused', item.getReceivedBytes())
+        } else {
+          sendDownloaProcess('downloading', item.getReceivedBytes())
+        }
+      }
+    })
+    item.once('done', (event, state) => {
+      if (state === 'completed') {
+        sendDownloaProcess('complated', item.getReceivedBytes())
+      } else {
+        sendDownloaProcess(state, item.getReceivedBytes())
+      }
+    })
+  })
+
+  downLoadFile(arg)
+
+})
 
 app.on('ready', createWindow)
 

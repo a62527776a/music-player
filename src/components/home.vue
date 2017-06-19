@@ -6,7 +6,9 @@
       </div>
       <v-playbar :musicUrl=musicUrl></v-playbar>
       <v-sliderbar
-        v-on:search="openSearchBar"></v-sliderbar>
+        v-on:search="openSearchBar"
+        :process=downloadProcess
+        :state=downloadType></v-sliderbar>
     </div>
     <transition name="load">
       <mu-linear-progress v-show="isLoading" />
@@ -22,6 +24,7 @@
             :key=item.id
             :item=item
             v-on:playSong=playSong(item)
+            v-on:downloadSong=downloadSong(item)
             >
           </v-songlist>
         </mu-list>
@@ -42,7 +45,9 @@ export default {
       searchKeyCode: '',
       musicUrl: '',
       isLoading: false,
-      isSearch: false
+      isSearch: false,
+      downloadProcess: 0,
+      downloadType: ''
     }
   },
   methods: {
@@ -52,13 +57,26 @@ export default {
       ipcRenderer.ipcRenderer.on('opening', (event, arg) => {
         this.isSearch = !this.isSearch
       })
-      console.log(this.isSearch)
     },
     searchSong () {
       this.isLoading = true
       this.baseService.search(this.searchKeyCode, 1).then((result) => {
         this.isLoading = false
         this.resultsong = result.result.songs
+      })
+    },
+    downloadSong (item) {
+      this.isLoading = true
+      this.baseService.getMusic(item.id).then((result) => {
+        this.isLoading = false
+        ipcRenderer.ipcRenderer.send('download-song', result.data[0].url)
+      })
+      this.downloading()
+    },
+    downloading () {
+      ipcRenderer.ipcRenderer.on('download-song', (event, arg) => {
+        this.downloadProcess = arg.process
+        this.downloadType = arg.type
       })
     },
     playSong (item) {
