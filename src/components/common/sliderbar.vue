@@ -38,16 +38,18 @@ export default {
       let ctxWidth = canvas.width
       let ctxHeight = canvas.height
       let radius = 5
+      let isPlus = true
       ctx.beginPath()
       ctx.fillStyle = '#eee'
-      ctx.strokeStyle = '#eee'
+      ctx.strokeStyle = 'red'
       ctx.lineWidth = 5
       let draw = () => {
         if (radius === 10) {
-          radius--
+          isPlus = false
         } else if (radius === 3) {
-          radius++
+          isPlus = true
         }
+        isPlus ? radius++ : radius--
         ctx.fillRect(0, 0, ctxWidth, Math.floor(ctxHeight * (this.process / 100)))
         ctx.arc(ctxHeight / 2, ctxWidth / 2, radius, 0, 360, false)
         ctx.stroke()

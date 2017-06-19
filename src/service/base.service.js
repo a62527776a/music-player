@@ -20,6 +20,11 @@ let baseService = {
     return xhr({
       url: `music/url?id=${id}`
     })
+  },
+  getMusicDetail: (id) => {
+    return xhr({
+      url: `song/detail?ids=${id}`
+    })
   }
 
 }

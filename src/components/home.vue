@@ -2,7 +2,7 @@
   <div>
     <div class="hello">
       <div style="thumb">
-        thumb
+        <img :src=thumb_url height="24px" width="24px" />
       </div>
       <v-playbar :musicUrl=musicUrl></v-playbar>
       <v-sliderbar
@@ -47,7 +47,8 @@ export default {
       isLoading: false,
       isSearch: false,
       downloadProcess: 0,
-      downloadType: ''
+      downloadType: '',
+      thumb_url: ''
     }
   },
   methods: {
@@ -81,9 +82,25 @@ export default {
     },
     playSong (item) {
       this.isLoading = true
+      let isLoad = [true, true]
       this.baseService.getMusic(item.id).then((result) => {
-        this.isLoading = false
+        if (!isLoad[0]) {
+          if (!isLoad[1]) {
+            this.isLoading = false
+          }
+        }
         this.musicUrl = result.data[0].url
+      })
+      this.baseService.getMusicDetail(item.id).then((result) => {
+        isLoad[1] = false
+        if (!isLoad[0]) {
+          if (!isLoad[1]) {
+            this.isLoading = false
+          }
+        }
+        this.isLoading = false
+        this.thumb_url = result.songs[0].al.picUrl
+        console.log(result)
       })
     }
   }
