@@ -2,9 +2,11 @@
   <div>
     <div class="hello">
       <div style="thumb">
-        <img :src=thumb_url height="24px" width="24px" />
+        <img style="position: absolute;top: 0;" :src=thumb_url height="50px" width="50px" />
       </div>
-      <v-playbar :musicUrl=musicUrl></v-playbar>
+      <v-playbar 
+        :musicUrl=musicUrl
+        :music_info=music_info></v-playbar>
       <v-sliderbar
         v-on:search="openSearchBar"
         :process=downloadProcess
@@ -13,23 +15,21 @@
     <transition name="load">
       <mu-linear-progress v-show="isLoading" />
     </transition>
-    <transition name="open">
-      <div class="search" v-show="isSearch">
-        <div class="search-bar">
-          <mu-text-field hintText="搜索歌曲" v-model="searchKeyCode" @change="searchSong" fullWidth />
-        </div>
-        <mu-list>
-          <v-songlist
-            v-for="item in resultsong"
-            :key=item.id
-            :item=item
-            v-on:playSong=playSong(item)
-            v-on:downloadSong=downloadSong(item)
-            >
-          </v-songlist>
-        </mu-list>
+    <div class="search" v-show="isSearch">
+      <div class="search-bar">
+        <mu-text-field hintText="搜索歌曲" v-model="searchKeyCode" @change="searchSong" fullWidth />
       </div>
-    </transition>
+      <mu-list>
+        <v-songlist
+          v-for="item in resultsong"
+          :key=item.id
+          :item=item
+          v-on:playSong=playSong(item)
+          v-on:downloadSong=downloadSong(item)
+          >
+        </v-songlist>
+      </mu-list>
+    </div>
   </div>
 </template>
 
@@ -47,6 +47,7 @@ export default {
       isLoading: false,
       isSearch: false,
       downloadProcess: 0,
+      music_info: {},
       downloadType: '',
       thumb_url: ''
     }
@@ -81,6 +82,7 @@ export default {
       })
     },
     playSong (item) {
+      this.music_info = item.album
       this.isLoading = true
       let isLoad = [true, true]
       this.baseService.getMusic(item.id).then((result) => {
@@ -100,7 +102,6 @@ export default {
         }
         this.isLoading = false
         this.thumb_url = result.songs[0].al.picUrl
-        console.log(result)
       })
     }
   }

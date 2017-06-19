@@ -2,7 +2,7 @@
   <div @mouseover="isHover = true" @mouseout="isHover = false" class="playerbar">
     <audio :src="musicUrl" ref="audio"></audio>
     <div class="music-info" :class="{notHover : isHover}">
-      123123
+      {{music_info.name}} - <span v-for="item in music_info.artists">{{item.name}}</span>
     </div>
     <div class="controls-bar" :class="{isHover : isHover}">
       <div class="dragBlock" style="left: 0"></div>
@@ -28,12 +28,16 @@ export default {
     musicUrl: {
       type: String,
       default: '123'
+    },
+    music_info: {
+      type: Object,
+      default: {}
     }
   },
   methods: {
     isPlay () {
       this.isPlayer = !this.isPlayer
-      this.isPlayer ? this.$refs.audio.pause() : this.$refs.audio.play()
+      this.isPlayer ? this.$refs.audio.play() : this.$refs.audio.pause()
     },
     switchSong (val) {
       window.alert(val)
