@@ -2,6 +2,7 @@
   <div>
     <v-msgborad :msgs=msgs></v-msgborad>
     <div class="hello">
+      <mu-linear-progress class="songProcess" mode="determinate" :value="songProcess"/>
       <div class="thumb">
         <img class="thumb_img" v-if="thumb_url" :src=thumb_url />
         <mu-icon class="thumb_img" v-if="!thumb_url" value="audiotrack" color="red"/>
@@ -21,7 +22,7 @@
       <div class="search-bar">
         <mu-text-field hintText="搜索歌曲" v-model="searchKeyCode" @change="searchSong" fullWidth />
       </div>
-      <mu-list>
+      <mu-list style="margin-top: -20px">
         <v-songlist
           v-for="item in resultsong"
           :key=item.id
@@ -45,6 +46,7 @@ export default {
       msg: '',
       msgs: [],
       resultsong: [],
+      songProcess: 30,
       searchKeyCode: '',
       musicUrl: '',
       isLoading: false,
@@ -69,7 +71,7 @@ export default {
       this.msgs.push(str)
       setTimeout(() => {
         this.msgs.shift()
-      }, 2500)
+      }, 5000)
     },
     searchSong () {
       this.isLoading = true
@@ -138,6 +140,7 @@ export default {
   height: 50px;
   overflow:hidden;
   padding: 10px 5px 0 0;
+  position: relative;
   flex: 1;
   .thumb {
     overflow: hidden;
@@ -184,6 +187,10 @@ export default {
 }
 .open-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   height: 0
+}
+.songProcess {
+  position: absolute;
+  bottom: 0;
 }
 
 </style>

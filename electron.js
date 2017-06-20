@@ -12,7 +12,7 @@ let createWindow = () => {
       height: 50, 
       backgroundColor: '#eee', 
       frame: false, 
-      // resizable: false,
+      resizable: false,
       defaultFontSize: 12
       })
     

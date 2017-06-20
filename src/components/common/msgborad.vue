@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div key="msg" class="msg" v-for="msg in msgs">{{msg}}</div>
+    <div key="msg" class="msg" v-for="(msg, idx) in msgs" :style="{ animationDelay: ((idx - 1) * 0.5) + 's' }">{{msg}}</div>
   </div>
 </template>
 
