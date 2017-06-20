@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-msgborad :msgs=msgs></v-msgborad>
     <div class="hello">
       <div class="thumb">
         <img class="thumb_img" v-if="thumb_url" :src=thumb_url />
@@ -42,6 +43,7 @@ export default {
   data () {
     return {
       msg: '',
+      msgs: [],
       resultsong: [],
       searchKeyCode: '',
       musicUrl: '',
@@ -63,16 +65,26 @@ export default {
         this.isSearch = !this.isSearch
       })
     },
+    inputMsg (str) {
+      this.msgs.push(str)
+      setTimeout(() => {
+        this.msgs.shift()
+      }, 2500)
+    },
     searchSong () {
       this.isLoading = true
+      this.inputMsg('搜索歌曲中...')
       this.baseService.search(this.searchKeyCode, 1).then((result) => {
+        this.inputMsg('搜索完成')
         this.isLoading = false
         this.resultsong = result.result.songs
       })
     },
     downloadSong (item) {
       this.isLoading = true
+      this.inputMsg('准备下载歌曲...')
       this.baseService.getMusic(item.id).then((result) => {
+        this.inputMsg('开始下载')
         this.isLoading = false
         ipcRenderer.ipcRenderer.send('download-song', result.data[0].url)
       })
@@ -87,8 +99,11 @@ export default {
     playSong (item) {
       this.music_info = item.album
       this.isLoading = true
-      let isLoad = [true, true]
+      let isLoad = [true, true, true]
+      this.inputMsg('获取歌曲路径中...')
       this.baseService.getMusic(item.id).then((result) => {
+        this.inputMsg('获取歌曲路径成功，准备播放')
+        isLoad[0] = false
         if (!isLoad[0]) {
           if (!isLoad[1]) {
             this.isLoading = false
@@ -96,7 +111,9 @@ export default {
         }
         this.musicUrl = result.data[0].url
       })
+      this.inputMsg('获取歌曲缩略图中...')
       this.baseService.getMusicDetail(item.id).then((result) => {
+        this.inputMsg('获取缩略图成功')
         isLoad[1] = false
         if (!isLoad[0]) {
           if (!isLoad[1]) {
@@ -106,6 +123,10 @@ export default {
         this.isLoading = false
         this.thumb_url = result.songs[0].al.picUrl
       })
+      // this.baseService.getMusicLrc(item.id).then((result))
+    },
+    analysisLrc (id) {
+
     }
   }
 }

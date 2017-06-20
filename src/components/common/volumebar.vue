@@ -26,13 +26,14 @@ export default {
   methods: {
     mousedown (e) {
       this.isClick = true
-      this.clientX = e.clientX
+      this.clientX = e.clientX - this.cX
     },
     mousemove (e) {
       if (this.isClick) {
         this.cX = e.clientX - this.clientX
+        if (this.cX > 0 || this.cX < -45) return
         this.$refs.volumeBtn.style.transform = `translate3D(${this.cX}px, 0, 0)`
-        console.log(this.cX, this.$refs.volumeBtn.style.transform)
+        this.$emit('changVolume', 1 + (this.cX / 45))
       }
     },
     mouseup () {

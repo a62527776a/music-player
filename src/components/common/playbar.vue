@@ -5,12 +5,14 @@
       <template v-if="music_info.name !== ''">{{music_info.name}} - <span v-for="item in music_info.artists">{{item.name}}</span></template>
       <template v-if="music_info.name === ''">听音乐，用酷我</template>
     </div>
+    <div class="dragBlock" style="left: 0">
+      <mu-icon value="blur_on" color="#bbb" />
+    </div>
     <div class="controls-bar" :class="{isHover : isHover}">
-      <div class="dragBlock" style="left: 0"></div>
       <mu-icon class="controls-icon" v-if="!isPlayer" value="play_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
       <mu-icon class="controls-icon" v-if="isPlayer" value="pause_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
-      <mu-icon class="controls-icon" value="volume_up" @click="" color="red"/>
-      <v-volumebar></v-volumebar>
+      <mu-icon @click="volBar = !volBar" :class="{ active:volBar }" class="controls-icon volume_up" value="volume_up" color="rgba(255, 0, 0, 0.7)"/>
+      <v-volumebar v-show="volBar" v-on:changVolume="changVolume"></v-volumebar>
     </div>
   </div>
 </template>
@@ -21,7 +23,8 @@ export default {
   data () {
     return {
       isHover: false,
-      isPlayer: false
+      isPlayer: false,
+      volBar: false
     }
   },
   props: {
@@ -38,6 +41,13 @@ export default {
     isPlay () {
       this.isPlayer = !this.isPlayer
       this.isPlayer ? this.$refs.audio.play() : this.$refs.audio.pause()
+    },
+    changVolume (arg) {
+      this.$refs.audio.volume = arg
+    },
+    mouseover () {
+      console.log('boolean')
+      // this.volBar = boolean
     }
   }
 }
@@ -54,6 +64,15 @@ export default {
   position: relative;
   transition: all 0.5s;
 }
+.controls-icon {
+  transition: all 0.5s;
+}
+.controls-icon:hover {
+  color: rgba(255, 0, 0, 1) !important;
+}
+.active {
+  color: rgba(255, 0, 0, 1) !important;
+}
 .controls-bar {
   opacity: 0;
   z-index: 5;
@@ -65,8 +84,9 @@ export default {
 .dragBlock {
   -webkit-app-region: drag;
   position: absolute;
-  width: 35px;
+  width: 50px;
   height: 30px;
+  top: 3px;
 }
 .music-info {
   z-index: 1;
