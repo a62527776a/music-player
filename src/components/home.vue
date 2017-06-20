@@ -2,7 +2,8 @@
   <div>
     <div class="hello">
       <div class="thumb">
-        <img :src=thumb_url height="50px" width="50px" style="margin-top: -10px" />
+        <img class="thumb_img" v-if="thumb_url" :src=thumb_url />
+        <mu-icon class="thumb_img" v-if="!thumb_url" value="audiotrack" color="red"/>
       </div>
       <v-playbar
         :musicUrl=musicUrl
@@ -13,7 +14,7 @@
         :state=downloadType></v-sliderbar>
     </div>
     <transition name="load">
-      <mu-linear-progress v-show="isLoading" />
+      <mu-linear-progress class="loadBar" v-show="isLoading" />
     </transition>
     <div class="search" v-show="isSearch">
       <div class="search-bar">
@@ -47,7 +48,9 @@ export default {
       isLoading: false,
       isSearch: false,
       downloadProcess: 0,
-      music_info: {},
+      music_info: {
+        name: ''
+      },
       downloadType: '',
       thumb_url: ''
     }
@@ -113,21 +116,41 @@ export default {
   display: flex;
   height: 50px;
   overflow:hidden;
-  padding: 10px 0;
+  padding: 10px 5px 0 0;
   flex: 1;
   .thumb {
     overflow: hidden;
   }
 }
-.search-bar {
+.loadBar {
   position: fixed;
-  top: 30px;
-  height: 20px;
-  width: 100%;
+  top: 0;
+  background: white;
+}
+.thumb_img {
+  height: 50px;
+  width: 50px;
+  margin-top: -10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: normal;
+}
+.search-bar {
+
 }
 .search {
   height: 300px;
   overflow: auto;
+  margin: 0 10px;
+}
+.search::-webkit-scrollbar {
+  background: white;
+  display: block;
+  width: 3px
+}
+.search::-webkit-scrollbar-thumb {
+  background: #ddd;
 }
 .load-enter-active, .fade-leave-active {
   transition: opacity .5s

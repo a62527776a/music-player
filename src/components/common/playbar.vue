@@ -2,15 +2,15 @@
   <div @mouseover="isHover = true" @mouseout="isHover = false" class="playerbar">
     <audio :src="musicUrl" ref="audio"></audio>
     <div class="music-info" :class="{notHover : isHover}">
-      {{music_info.name}} - <span v-for="item in music_info.artists">{{item.name}}</span>
+      <template v-if="music_info.name !== ''">{{music_info.name}} - <span v-for="item in music_info.artists">{{item.name}}</span></template>
+      <template v-if="music_info.name === ''">听音乐，用酷我</template>
     </div>
     <div class="controls-bar" :class="{isHover : isHover}">
       <div class="dragBlock" style="left: 0"></div>
-      <div class="dragBlock" style="right: 0"></div>
-      <mu-icon value="fast_rewind" @click="switchSong('rewind')" color="red"/>
-      <mu-icon v-if="!isPlayer" value="play_circle_filled" @click="isPlay" color="red"/>
-      <mu-icon v-if="isPlayer" value="pause_circle_filled" @click="isPlay" color="red"/>
-      <mu-icon value="fast_forward" @click="switchSong('forward')" color="red"/>
+      <mu-icon class="controls-icon" v-if="!isPlayer" value="play_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
+      <mu-icon class="controls-icon" v-if="isPlayer" value="pause_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
+      <mu-icon class="controls-icon" value="volume_up" @click="" color="red"/>
+      <v-volumebar></v-volumebar>
     </div>
   </div>
 </template>
@@ -38,9 +38,6 @@ export default {
     isPlay () {
       this.isPlayer = !this.isPlayer
       this.isPlayer ? this.$refs.audio.play() : this.$refs.audio.pause()
-    },
-    switchSong (val) {
-      window.alert(val)
     }
   }
 }
