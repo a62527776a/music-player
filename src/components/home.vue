@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="hello">
-      <div style="thumb">
-        <img style="position: absolute;top: 0;" :src=thumb_url height="50px" width="50px" />
+      <div class="thumb">
+        <img :src=thumb_url height="50px" width="50px" style="margin-top: -10px" />
       </div>
-      <v-playbar 
+      <v-playbar
         :musicUrl=musicUrl
         :music_info=music_info></v-playbar>
       <v-sliderbar
@@ -112,11 +112,11 @@ export default {
 .hello {
   display: flex;
   height: 50px;
+  overflow:hidden;
   padding: 10px 0;
   flex: 1;
   .thumb {
-    height: 50px;
-    width: 50px;
+    overflow: hidden;
   }
 }
 .search-bar {
