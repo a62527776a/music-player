@@ -2,13 +2,14 @@
   <div>
     <v-msgborad :msgs=msgs></v-msgborad>
     <div class="hello">
-      <mu-linear-progress class="songProcess" mode="determinate" :value="songProcess"/>
+      <mu-linear-progress class="songProcess" @click.native="changeProcess" mode="determinate" :value="$store.state.process.line"/>
       <div class="thumb">
         <img class="thumb_img" v-if="thumb_url" :src=thumb_url />
         <mu-icon class="thumb_img" v-if="!thumb_url" value="audiotrack" color="red"/>
       </div>
       <v-playbar
         :musicUrl=musicUrl
+        :currentTime=currentTime
         :music_info=music_info></v-playbar>
       <v-sliderbar
         v-on:search="openSearchBar"
@@ -46,11 +47,11 @@ export default {
       msg: '',
       msgs: [],
       resultsong: [],
-      songProcess: 30,
       searchKeyCode: '',
       musicUrl: '',
       isLoading: false,
       isSearch: false,
+      currentTime: 0,
       downloadProcess: 0,
       music_info: {
         name: ''
@@ -67,6 +68,11 @@ export default {
         this.isSearch = !this.isSearch
       })
     },
+    changeProcess (e) {
+      let processLine = (e.clientX / document.body.clientWidth) * 100
+      this.$store.state.process.line = processLine
+      this.currentTime = this.$store.state.process.duration * (processLine / 100)
+    },
     inputMsg (str) {
       this.msgs.push(str)
       setTimeout(() => {
@@ -81,6 +87,9 @@ export default {
         this.isLoading = false
         this.resultsong = result.result.songs
       })
+    },
+    playProcess (arg) {
+      this.songProcess = arg
     },
     downloadSong (item) {
       this.isLoading = true
@@ -191,6 +200,8 @@ export default {
 .songProcess {
   position: absolute;
   bottom: 0;
+  cursor: pointer;
+  z-index: 99999;
 }
 
 </style>

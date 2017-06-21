@@ -8,6 +8,7 @@ import common from './components/common/'
 import baseService from './service/base.service'
 
 import 'muse-ui/dist/muse-ui.css'
+import store from './store/'
 
 Vue.use(MuseUI)
 Vue.config.productionTip = false
@@ -23,6 +24,7 @@ Vue.prototype.baseService = baseService
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

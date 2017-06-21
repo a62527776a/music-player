@@ -24,7 +24,28 @@ export default {
     return {
       isHover: false,
       isPlayer: false,
-      volBar: false
+      volBar: false,
+      timer: Function
+    }
+  },
+  watch: {
+    'musicUrl': function (val) {
+      this.$store.state.process.duration = this.$refs.audio.duration
+    },
+    'isPlayer': function (val) {
+      if (!this.$store.state.process.duration) {
+        this.$store.state.process.duration = this.$refs.audio.duration
+      }
+      if (val) {
+        this.timer = setInterval(() => {
+          this.$store.state.process.line = (this.$refs.audio.currentTime / this.$store.state.process.duration) * 100
+        }, 500)
+      } else {
+        clearInterval(this.timer)
+      }
+    },
+    'currentTime': function (val) {
+      this.$refs.audio.currentTime = val
     }
   },
   props: {
@@ -35,6 +56,10 @@ export default {
     music_info: {
       type: Object,
       default: {}
+    },
+    currentTime: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
@@ -46,7 +71,6 @@ export default {
       this.$refs.audio.volume = arg
     },
     mouseover () {
-      console.log('boolean')
       // this.volBar = boolean
     }
   }
