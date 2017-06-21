@@ -1,6 +1,6 @@
 <template>
   <div @mouseover="isHover = true" @mouseout="isHover = false" class="playerbar">
-    <audio :src="musicUrl" ref="audio"></audio>
+    <audio @ended="ended" :src="musicUrl" ref="audio"></audio>
     <div class="music-info" :class="{notHover : isHover}">
       <template v-if="music_info.name !== ''">{{music_info.name}} - <span v-for="item in music_info.artists">{{item.name}}</span></template>
       <template v-if="music_info.name === ''">听音乐，用酷我</template>
@@ -9,9 +9,9 @@
       <mu-icon value="blur_on" color="#bbb" />
     </div>
     <div class="controls-bar" :class="{isHover : isHover}">
-      <mu-icon class="controls-icon" v-if="!isPlayer" value="play_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
-      <mu-icon class="controls-icon" v-if="isPlayer" value="pause_circle_filled" @click="isPlay" color="rgba(255, 0, 0, 0.7)"/>
-      <mu-icon @click="volBar = !volBar" :class="{ active:volBar }" class="controls-icon volume_up" value="volume_up" color="rgba(255, 0, 0, 0.7)"/>
+      <mu-icon class="controls-icon" v-if="!isPlayer" value="play_circle_filled" @click="isPlay" :size=30 color="rgba(255, 0, 0, 0.7)"/>
+      <mu-icon class="controls-icon" v-if="isPlayer" value="pause_circle_filled" @click="isPlay" :size=30 color="rgba(255, 0, 0, 0.7)"/>
+      <mu-icon @click="volBar = !volBar" :size=30 :class="{ active:volBar }" class="controls-icon volume_up" value="volume_up" color="rgba(255, 0, 0, 0.7)"/>
       <v-volumebar v-show="volBar" v-on:changVolume="changVolume"></v-volumebar>
     </div>
   </div>
@@ -30,7 +30,11 @@ export default {
   },
   watch: {
     'musicUrl': function (val) {
-      this.$store.state.process.duration = this.$refs.audio.duration
+      setTimeout(() => {
+        this.$store.state.process.duration = this.$refs.audio.duration
+        this.$refs.audio.play()
+        this.isPlayer = true
+      }, 500)
     },
     'isPlayer': function (val) {
       if (!this.$store.state.process.duration) {
@@ -51,7 +55,7 @@ export default {
   props: {
     musicUrl: {
       type: String,
-      default: '123'
+      default: ''
     },
     music_info: {
       type: Object,
@@ -64,8 +68,14 @@ export default {
   },
   methods: {
     isPlay () {
+      if (this.musicUrl === '') {
+        return
+      }
       this.isPlayer = !this.isPlayer
       this.isPlayer ? this.$refs.audio.play() : this.$refs.audio.pause()
+    },
+    ended () {
+      this.isPlayer = false
     },
     changVolume (arg) {
       this.$refs.audio.volume = arg

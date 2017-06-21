@@ -69,6 +69,10 @@ export default {
       })
     },
     changeProcess (e) {
+      if (this.musicUrl === '') {
+        this.inputMsg('请等待加载...')
+        return
+      }
       let processLine = (e.clientX / document.body.clientWidth) * 100
       this.$store.state.process.line = processLine
       this.currentTime = this.$store.state.process.duration * (processLine / 100)
@@ -77,7 +81,7 @@ export default {
       this.msgs.push(str)
       setTimeout(() => {
         this.msgs.shift()
-      }, 5000)
+      }, 3000)
     },
     searchSong () {
       this.isLoading = true

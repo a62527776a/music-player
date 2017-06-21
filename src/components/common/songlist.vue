@@ -7,9 +7,8 @@
         {{artists.name}}
       </span>
     </a>
-    <mu-icon slot="right" value="add" @click.native="playSong"/>
-    <mu-icon slot="right" value="play_arrow" @click.native="playSong"/>
-    <mu-icon slot="right" value="file_download" @click.native="downloadSong"/>
+    <mu-icon slot="right" value="play_arrow" :size=18 @click.native="playSong"/>
+    <mu-icon slot="right" value="file_download" :size=18 @click.native="downloadSong"/>
   </mu-list-item>
 </template>
 
