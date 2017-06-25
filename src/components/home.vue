@@ -2,6 +2,7 @@
   <div>
     <v-msgborad :msgs=msgs></v-msgborad>
     <div class="hello">
+      <mu-icon class="quit_icon" value="clear" color="#aaa" @click.native="quitApp" :size=12 />
       <mu-linear-progress class="songProcess" @click.native="changeProcess" mode="determinate" :value="$store.state.process.line"/>
       <div class="thumb">
         <img class="thumb_img" v-if="thumb_url" :src=thumb_url />
@@ -67,6 +68,9 @@ export default {
       ipcRenderer.ipcRenderer.on('opening', (event, arg) => {
         this.isSearch = !this.isSearch
       })
+    },
+    quitApp () {
+      ipcRenderer.ipcRenderer.send('quit-app')
     },
     changeProcess (e) {
       if (this.musicUrl === '') {
@@ -158,6 +162,11 @@ export default {
   .thumb {
     overflow: hidden;
   }
+}
+.quit_icon {
+  position: fixed;
+  top: 0;
+  right: 0;
 }
 .loadBar {
   position: fixed;

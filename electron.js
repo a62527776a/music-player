@@ -1,12 +1,45 @@
-const { app, BrowserWindow, ipcMain, webContents } = require('electron')
+const { app, BrowserWindow, ipcMain, webContents, Tray, Menu, dialog } = require('electron')
 const path = require('path')
 const url = require('url')
 const windowWidth = 300
 
 let win
 let downloadFile
+let tray = null
 
 let createWindow = () => {
+    tray = new Tray('./music-icon.jpg')
+    tray.on('click', () => {
+      win.show()
+    })
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: '打开主面板',
+        click: () => {
+          win.show()
+        }
+      },
+      {
+        label: '退出',
+        click: () => {
+          win.close()
+        }
+      },
+      {
+        label: '关于',
+        click: () => {
+          dialog.showMessageBox(win, {
+            type: 'none',
+            buttons: ['ok'],
+            title: '关于',
+            detail: '作者：a13868300128a@126.com'
+          })
+        }
+      }
+    ])
+    tray.setToolTip('This is my application.')
+    tray.setContextMenu(contextMenu)
+
     win = new BrowserWindow({
       width: windowWidth, 
       height: 50, 
@@ -37,6 +70,10 @@ ipcMain.on('search-song', (event, arg) => {
   if (opening) event.sender.send('opening', opening)
   let height = arg ? 50 : 350
   openAnimation(arg, height)
+})
+
+ipcMain.on('quit-app', (event, arg) => {
+  win.hide()
 })
 
 let openAnimation = (isOpen, height) => {
