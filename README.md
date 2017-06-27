@@ -8,7 +8,7 @@
 
 ##### 界面预览
 
-![深度录屏_选择区域_20170627110007.gif](http://upload-images.jianshu.io/upload_images/5738345-163508948429a06f.gif?imageMogr2/auto-orient/strip)
+![深度录屏_选择区域_20170627110007.gif](http://chuantu.biz/t5/118/1498535424x975621450.gif)
 
 ## Build Setup
 
