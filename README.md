@@ -1,30 +1,41 @@
 # music-app
 
-> A Vue.js project
+> A Electron Vue.js project
+
+实现音乐搜索 试听 下载 等音乐盒常用功能
+
+### API接口来自 [网易云音乐 API](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+##### 界面预览
+
+![深度录屏_选择区域_20170627110007.gif](http://chuantu.biz/t5/118/1498535424x975621450.gif)
 
 ## Build Setup
 
 ``` bash
-# install dependencies
-npm install
+# clone API server
+git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
 
-# serve with hot reload at localhost:8080
+cd NeteaseCloudMusicApi
+
+cnpm install
+
+# run server
+
+node app
+
+# clone Project
+
+git clone https://github.com/a62527776a/music-player.git
+
+cd music-player
+
+cnpm install
+
+# run Project
+
 npm run dev
 
-# build for production with minification
-npm run build
+electron .
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
