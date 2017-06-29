@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, webContents, Tray, Menu, dialog } = require('electron')
 const path = require('path')
 const url = require('url')
-const windowWidth = 300
+const windowWidth = 800
 
 let win
 let downloadFile
@@ -53,7 +53,7 @@ let createWindow = () => {
 
     win.setAlwaysOnTop(true)
     
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
 
     downLoadFile = (url) => {
       win.webContents.downloadURL(url)

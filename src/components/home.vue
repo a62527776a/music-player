@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @dragenter=drag @dragover=drag @dragleave=drag @drop=drop >
     <v-msgborad :msgs=msgs></v-msgborad>
     <div class="hello">
       <mu-icon class="quit_icon" value="clear" color="#aaa" @click.native="quitApp" :size=12 />
@@ -47,6 +47,7 @@ export default {
     return {
       msg: '',
       msgs: [],
+      isDrag: false,
       resultsong: [],
       searchKeyCode: '',
       musicUrl: '',
@@ -68,6 +69,19 @@ export default {
       ipcRenderer.ipcRenderer.on('opening', (event, arg) => {
         this.isSearch = !this.isSearch
       })
+    },
+    drag (e) {
+      e.preventDefault()
+    },
+    drop (e) {
+      e.preventDefault()
+      let files = e.dataTransfer.files[0]
+      let fileReg = new RegExp('audio')
+      if (!fileReg.test(files.type)) {
+        window.alert('请拖入音乐文件')
+        return
+      }
+      this.musicUrl = window.URL.createObjectURL(files)
     },
     quitApp () {
       ipcRenderer.ipcRenderer.send('quit-app')
@@ -162,6 +176,15 @@ export default {
   .thumb {
     overflow: hidden;
   }
+}
+.oMask {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: rgba(0,0,0,0.5);
+  z-index: 999998;
+  color: white;
+  padding-top: 13px;
 }
 .quit_icon {
   position: fixed;
