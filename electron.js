@@ -4,10 +4,29 @@ const url = require('url')
 const windowWidth = 800
 
 let win
+let songListBrower
 let downloadFile
 let tray = null
 
 let createWindow = () => {
+    win = new BrowserWindow({
+      width: windowWidth, 
+      height: 50, 
+      backgroundColor: '#eee', 
+      frame: false, 
+      // resizable: false,
+      defaultFontSize: 12
+    })
+    
+    songListBrower = new BrowserWindow({
+      width: 200, 
+      height: 200, 
+      backgroundColor: '#eee', 
+      frame: false, 
+      alwaysOnTop: true,
+      resizable: false,
+      defaultFontSize: 12
+    })
     tray = new Tray('./music-icon.jpg')
     tray.on('click', () => {
       win.show()
@@ -40,20 +59,11 @@ let createWindow = () => {
     tray.setToolTip('This is my application.')
     tray.setContextMenu(contextMenu)
 
-    win = new BrowserWindow({
-      width: windowWidth, 
-      height: 50, 
-      backgroundColor: '#eee', 
-      frame: false, 
-      resizable: false,
-      defaultFontSize: 12
-      })
-    
-    win.loadURL('http://localhost:8080')
-
-    win.setAlwaysOnTop(true)
-    
     win.webContents.openDevTools()
+    win.loadURL('http://localhost:8080')
+    songListBrower.loadURL('http://localhost:8080/#/play')
+
+    songListBrower.hide()
 
     downLoadFile = (url) => {
       win.webContents.downloadURL(url)
@@ -90,6 +100,10 @@ let openAnimation = (isOpen, height) => {
     }
   }
 }
+
+ipcMain.on('open-song-list', (event, arg) => {
+  arg ? songListBrower.show() : songListBrower.hide()
+})
 
 ipcMain.on('download-song', (e, arg) => {
   win.webContents.session.on('will-download', (event, item, webContents) => {

@@ -1,7 +1,8 @@
 <template>
   <div class="sliderbar">
     <canvas ref="downloadProcess" height="24" width="24"></canvas>
-    <mu-icon value="search" @click="search" color="#aaa"/>
+    <mu-icon value="search" @click="$emit('search')" color="#aaa"/>
+    <mu-icon value="queue_music" @click="$emit('songlist')" color="#aaa"/>
   </div>
 </template>
 
@@ -29,9 +30,6 @@ export default {
     }
   },
   methods: {
-    search () {
-      this.$emit('search')
-    },
     drawProcess () {
       const canvas = this.$refs.downloadProcess
       let ctx = canvas.getContext('2d')

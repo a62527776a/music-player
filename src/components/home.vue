@@ -14,6 +14,7 @@
         :music_info=music_info></v-playbar>
       <v-sliderbar
         v-on:search="openSearchBar"
+        v-on:songlist="openSonglist"
         :process=downloadProcess
         :state=downloadType></v-sliderbar>
     </div>
@@ -69,6 +70,10 @@ export default {
       ipcRenderer.ipcRenderer.on('opening', (event, arg) => {
         this.isSearch = !this.isSearch
       })
+    },
+    openSonglist () {
+      ipcRenderer.ipcRenderer.send('open-song-list', !this.$store.state.process.songlist)
+      this.$store.state.process.songlist = !this.$store.state.process.songlist
     },
     drag (e) {
       e.preventDefault()

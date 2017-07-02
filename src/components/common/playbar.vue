@@ -111,14 +111,14 @@ export default {
   opacity: 0;
   z-index: 5;
   position: absolute;
-  width: 80%;
+  width: 60%;
   padding-top: 5px;
   transition: all 0.5s;
 }
 .dragBlock {
   -webkit-app-region: drag;
   position: absolute;
-  width: 50px;
+  width: 20px;
   height: 30px;
   top: 3px;
 }
